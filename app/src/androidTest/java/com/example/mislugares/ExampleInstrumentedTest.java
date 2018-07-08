@@ -24,3 +24,5 @@ public class ExampleInstrumentedTest {
         assertEquals("com.example.mislugares", appContext.getPackageName());
     }
 }
+
+//Nueva subida ya que la anterior la descripción no se cambio correctamente
