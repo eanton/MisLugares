@@ -1,7 +1,9 @@
 package com.example.mislugares;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +12,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button bAcercaDe;
     private Button bSalir;
+    private Button bPreferencias;
+    private Button bMostrarLugares;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +55,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        bPreferencias = (Button) findViewById(R.id.button02);
+        bPreferencias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lanzarPreferencias();
+            }
+        });
 
-
+        bMostrarLugares = (Button) findViewById(R.id.button01);
+        bMostrarLugares.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mostrarPreferencias();
+            }
+        });
 
     }
 
@@ -71,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            lanzarPreferencias();
             return true;
         }
 
@@ -87,5 +106,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void lanzarPreferencias(){
+        Intent i = new Intent(this, PreferenciasActivity.class);
+        startActivity(i);
+    }
+
+    public void mostrarPreferencias(){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String s = "notificaciones: "+ pref.getBoolean("notificaciones",true)
+                +", máximo a listar: " + pref.getString("maximo","?");
+
+        pref.getBoolean("recibir",false);
+
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
 
 }
