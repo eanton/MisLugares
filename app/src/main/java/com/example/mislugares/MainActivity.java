@@ -9,6 +9,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -23,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private Button bSalir;
     private Button bPreferencias;
     private Button bMostrarLugares;
+
+    private RecyclerView recyclerView;
+    public AdaptadorLugares adaptador;
+    private RecyclerView.LayoutManager layoutManager;
+
 
     public static Lugares lugares = new LugaresVector();
 
@@ -44,6 +51,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        adaptador = new AdaptadorLugares(this, lugares);
+        recyclerView.setAdapter(adaptador);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adaptador.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, VistaLugarActivity.class);
+                i.putExtra("id", (long) recyclerView.getChildAdapterPosition(v));
+                startActivity(i);
+            }
+        });
+
+
+/*
         bAcercaDe = (Button) findViewById(R.id.button03);
         bAcercaDe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 mostrarPreferencias();
             }
         });
+        */
 
     }
 
